@@ -22,6 +22,9 @@ export interface Emmiter<Events extends Record<EventType, unknown>> {
   // events Map
   events: EventMap<Events>
 
+  // offline events Map
+  offlineEvents: EventMap<Events>
+
   // listen an event
   on<Key extends keyof Events>(type: Key, event: Event<Events[Key]>): void
 
@@ -34,8 +37,10 @@ export interface Emmiter<Events extends Record<EventType, unknown>> {
   // similar offAll. unlisten all event
   off(type: '*', event: AllEvent<Events>): void
 
+  // trigger an event
   emit<Key extends keyof Events>(type: Key, event: Events[Key]): void
 
+  // if on all event, automatic trigger all event
   emit<Key extends keyof Events>(type: undefined extends Events[Key] ? Key : never): void
 }
 
@@ -46,15 +51,26 @@ export default function EventEmitte<Events extends Record<EventType, unknown>>(
 
   if (!events) events = new Map()
 
+  const offlineEvents = new Map()
+
   return {
     events,
+    offlineEvents,
     on<Key extends keyof Events>(type: Key, event: InitEvent) {
+      // trigger offline events
+      offlineEvents.forEach((handler, type) => {
+        handler(event)
+      })
+      offlineEvents.clear()
+
       const _events: Array<InitEvent> | undefined = events!.get(type)
+
       if (_events) {
         _events.push(event)
       } else {
         events!.set(type, [event] as EventList<Events[keyof Events]>)
       }
+
     },
     off<Key extends keyof Events>(type: Key, event?: InitEvent) {
       const _events: Array<InitEvent> | undefined = events!.get(type)
@@ -69,11 +85,16 @@ export default function EventEmitte<Events extends Record<EventType, unknown>>(
     },
     emit<Key extends keyof Events>(type: Key, event?: Events[Key]) {
       let _events = events!.get(type)
+
       if (_events) {
         (_events as EventList<Events[keyof Events]>).slice().map(handler => {
           handler(event!)
         })
+      } else {
+        // if not on when emit, set to offline Map
+        offlineEvents!.set(type, [event] as EventList<Events[keyof Events]>)
       }
+
       _events = events?.get('*')
       if (_events) {
         (_events as AllEventList<Events>).slice().map(handler => {
