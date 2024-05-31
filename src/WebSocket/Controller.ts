@@ -1,5 +1,12 @@
 class WebSocket {
+  // 订阅地址
+  private url: string = ''
+  // 认证信息
+  private auth: string = ''
+
   constructor(props: any) {
+    this.url = props!.url
+    this.auth = props!.auth
   }
 
   // 连接
