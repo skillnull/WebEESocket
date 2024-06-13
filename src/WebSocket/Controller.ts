@@ -1,4 +1,7 @@
 import EventEmitter from '../EventEmitter'
+import MODEL from './Model'
+
+const { STATE } = MODEL
 
 class WebSocket {
   private EventEmitter: any = EventEmitter()
@@ -6,10 +9,17 @@ class WebSocket {
   private url: string = ''
   // 认证信息
   private auth: string = ''
+  // 协议
+  private protocol?: any
+  // 连接状态
+  private state = STATE.unknow
+  // websocket 或 connectSocket 实例
+  private websocket: any;
 
   constructor(props: any) {
     this.url = props!.url
     this.auth = props!.auth
+    this.protocol = props?.auth
 
     this.subscribe = this.subscribe.bind(this)
     this.unsubscribe = this.unsubscribe.bind(this)
@@ -19,7 +29,52 @@ class WebSocket {
 
   // 连接
   connect() {
+    return new Promise((resolve, reject) => {
+      this.state = STATE.before_connect
+      let _websocket: any
 
+      const on_close = (data: object) => {
+      }
+
+      const on_error = (data: object) => {
+      }
+
+      const on_message = (data: any) => {
+      }
+
+      if (window && window.WebSocket) {
+        _websocket = new window.WebSocket(this.url)
+        this.websocket = _websocket
+
+        this.websocket.onopen = () => {
+        }
+
+        this.websocket.onclose = on_close
+
+        this.websocket.onerror = on_error
+
+        this.websocket.onmessage = on_message
+
+      } else if (wx && wx.connectSocket) {
+        _websocket = wx.connectSocket({
+          url: this.url,
+          protocols: [this.protocol],
+          success: resolve,
+          fail: reject
+        })
+        this.websocket = _websocket
+
+        this.websocket.onOpen(() => {
+        })
+
+        this.websocket.onClose(on_close)
+
+        this.websocket.onError(on_error)
+
+        this.websocket.onMessage(on_message)
+      }
+
+    })
   }
 
   // 重连
