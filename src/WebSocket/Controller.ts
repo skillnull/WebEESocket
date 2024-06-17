@@ -15,6 +15,8 @@ class WebSocket {
   private state = STATE.unknow
   // websocket 或 connectSocket 实例
   private websocket: any;
+  // 是否主动关闭
+  private initiative_close: boolean = false
 
   constructor(props: any) {
     this.url = props!.url
@@ -34,12 +36,42 @@ class WebSocket {
       let _websocket: any
 
       const on_close = (data: object) => {
+        if (this.websocket !== _websocket) return
+
+        this.state = STATE.disconnected
+
+        // 若非主动关闭，则自动重连
+        if (!this.initiative_close) {
+          this.reconnect()
+        } else {
+          this.initiative_close = false
+        }
+
+        this.EventEmitter.emit('onClose', data)
       }
 
       const on_error = (data: object) => {
+        if (this.websocket !== _websocket) return
+
+        this.state = STATE.error
+
+        this.reconnect()
+
+        this.EventEmitter.emit('onError', data)
       }
 
       const on_message = (data: any) => {
+        if (this.websocket !== _websocket) return
+
+        try {
+          const res = data.data
+
+          this.handleMessage(res)
+
+          this.EventEmitter.emit('onMessage', res)
+        } catch (e) {
+          console.log(e)
+        }
       }
 
       if (window && window.WebSocket) {
@@ -99,12 +131,14 @@ class WebSocket {
 
   // 数据处理
   handleMessage(data: object) {
-
+    this.EventEmitter.emit(data)
   }
 
   // 关闭
-  close() {
-
+  close(code = 1000, reason = '') {
+    this.initiative_close = true
+    if (!this.websocket) return
+    this.websocket.close(code, reason)
   }
 
   on(params: any, callback: void) {
