@@ -1,5 +1,6 @@
 import EventEmitter from '../EventEmitter'
 import MODEL from './Model'
+import { CONFIG } from "./Config"
 
 const { STATE } = MODEL
 
@@ -160,8 +161,8 @@ class WebSocket {
    * 订阅
    * @data: {
    *   key: <String> 用于缓存和退订，需保证唯一和可回溯
-   *   body: <Any> 服务端需要的，订阅具体的参数
-   *   stringify?: <Boolean> 是否将 body JSON.stringify，默认 true
+   *   body: <Any> 服务端需要的，订阅的具体参数，默认将进行 JSON.stringify
+   *   not_stringify?: <Boolean> 是否取消将参数 body 进行 JSON.stringify，默认 false
    * }
    */
   subscribe(data: any) {
@@ -171,7 +172,7 @@ class WebSocket {
     this.cache_subscribe[key] = data
 
     if (this.state === STATE.connected) {
-      return this.send(data)
+      return this.send(data?.not_stringify ? data : CONFIG.STRINGIFY(data))
     }
 
     // 缓存失败订阅
@@ -193,15 +194,18 @@ class WebSocket {
    * 退订
    * @data: {
    *   key: <String> 订阅时传的 key
-   *   body?: <Any> 其他参数，会合并到订阅时缓存的 body 上
+   *   body?: <Any> 其他参数，会合并到订阅时缓存的 body 上，默认将合并后的 body 进行 JSON.stringify
+   *   not_stringify?: <Boolean> 是否取消将合并后的参数 body 进行 JSON.stringify，默认 false
    * }
    */
   unsubscribe(data: any) {
     const key = data!.key
 
-    const body = Object.assign({}, this.cache_subscribe[key], data?.body || {})
+    data.body = Object.assign({}, this.cache_subscribe[key], data?.body || {})
 
-    if (!body || JSON.stringify(body) === '{}') return
+    if (!data.body || CONFIG.STRINGIFY(data.body) === '{}') return
+
+    this.send(data?.not_stringify ? data : CONFIG.STRINGIFY(data))
 
     const idx = this.cache_subscribe_fail_list.findIndex((item: any) => {
       return item.key === key
