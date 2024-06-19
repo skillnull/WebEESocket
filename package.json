@@ -1,6 +1,14 @@
 {
+  "version": "0.0.1",
+  "name": "@skillnull/WebEESocket",
+  "description": "通过事件驱动机制 EventEmitter 对 Websocket 和微信 connectSocket 进行集成封装",
   "dependencies": {
     "@types/node": "^20.12.12",
     "typescript": "^5.4.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skillnull/WebEESocket"
+  },
+  "license": "MIT"
 }
