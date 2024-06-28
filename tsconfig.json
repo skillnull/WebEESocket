@@ -1,12 +1,24 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "allowJs": true,
     "strict": true,
-    "noEmit": true,
+    "noEmit": false,
     "declaration": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "module": "ESNext",
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "plugins": [
+      {
+        "name": "@rollup/plugin-typescript"
+      }
+    ]
   },
   "exclude": [
     "node_modules"
