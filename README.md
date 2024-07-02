@@ -6,9 +6,9 @@
 ```html
 CDN
 
-<script src="https://www.unpkg.com/@skillnull/webeesocket@0.0.4/dist/@skillnull/WebEESocket.js"></script>
+<script src="https://www.unpkg.com/@skillnull/webeesocket@0.0.5/dist/@skillnull/WebEESocket.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.0.4/dist/@skillnull/WebEESocket.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.0.5/dist/@skillnull/WebEESocket.js"></script>
 ```
 
 ```bash
