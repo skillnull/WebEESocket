@@ -5,12 +5,12 @@
 ### 安装
 
 ```bash
-yarn add @skillnull/WebEESocket
+yarn add @skillnull/webeesocket
 ```
 
 ### 使用
 ```js
-import { QUOTE } from '@skillnull/WebEESocket'
+import { QUOTE } from '@skillnull/webeesocket'
 
 this.QUOTE = new QUOTE({
   env: 'development'
