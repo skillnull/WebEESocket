@@ -3,9 +3,20 @@
 通过事件驱动机制 EventEmitter 对 Websocket 和微信 connectSocket 进行集成封装
 
 ### 安装
+```html
+CDN
+
+<script src="https://www.unpkg.com/@skillnull/webeesocket@0.0.4/dist/@skillnull/WebEESocket.js"></script>
+# or
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.0.4/dist/@skillnull/WebEESocket.js"></script>
+```
 
 ```bash
 yarn add @skillnull/webeesocket
+
+# or with npm
+
+npm install @skillnull/webeesocket
 ```
 
 ### 使用
