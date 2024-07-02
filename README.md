@@ -10,16 +10,16 @@ yarn add @skillnull/webeesocket
 
 ### 使用
 ```js
-import { QUOTE } from '@skillnull/webeesocket'
+import { WEBSOCKET } from '@skillnull/webeesocket'
 
-this.QUOTE = new QUOTE({
+this.WEBSOCKET = new WEBSOCKET({
   env: 'development'
 })
 
 /**
  * code: 与服务端约定的用于监听的 code
  */
-this.QUOTE.on(code, (data) => {
+this.WEBSOCKET.on(code, (data) => {
   // handler data
 })
 
@@ -31,7 +31,7 @@ this.QUOTE.on(code, (data) => {
  *   not_stringify?: <Boolean> 是否取消将参数 body 进行 JSON.stringify，默认 false
  * }
  */
-this.QUOTE.subscribe({
+this.WEBSOCKET.subscribe({
   key: "require",
   body: "require",
   not_stringify: "not require"
@@ -45,7 +45,7 @@ this.QUOTE.subscribe({
  *   not_stringify?: <Boolean> 是否取消将合并后的参数 body 进行 JSON.stringify，默认 false
  * }
  */
-this.QUOTE.unsubscribe({
+this.WEBSOCKET.unsubscribe({
   key: "require", 
   body: "require", 
   not_stringify: "not require"
