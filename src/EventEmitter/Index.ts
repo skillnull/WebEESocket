@@ -57,11 +57,15 @@ export default function EventEmitte<Events extends Record<EventType, unknown>>(
     events,
     offlineEvents,
     on<Key extends keyof Events>(type: Key, event: InitEvent) {
-      // trigger offline events
-      offlineEvents.forEach((handler, type) => {
-        handler(event)
-      })
-      offlineEvents.clear()
+      if (offlineEvents.size > 0) {
+        // trigger offline events
+        offlineEvents.forEach((handler, type) => {
+          if (typeof handler === "function") {
+            handler(event)
+          }
+        })
+        offlineEvents.clear()
+      }
 
       const _events: Array<InitEvent> | undefined = events!.get(type)
 
