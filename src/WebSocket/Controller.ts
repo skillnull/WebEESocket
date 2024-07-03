@@ -247,6 +247,7 @@ class WebSocket {
   // 心跳握手
   heartbeatFun() {
     let _this = this
+    if (!_this.websocket || _this.state !== STATE.connected) return
     if (!_this.heartbeat) return
     _this.heartbeat_interval && clearInterval(_this.heartbeat_interval)
     _this.heartbeat_interval = setInterval(function () {
