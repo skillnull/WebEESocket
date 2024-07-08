@@ -1,15 +1,27 @@
+<div align="center" >
+  <a href="http://www.skillnull.com"><img src="http://skillnull.com/others/images/brand/MIT.svg" alt="License MIT"></a>
+</div>
+
 # WebEESocket
 
 通过事件驱动机制 EventEmitter 对 Websocket 和微信 connectSocket 进行集成封装
 
-### 安装
-```html
-CDN
+> #### CDN
 
-<script src="https://www.unpkg.com/@skillnull/webeesocket@0.0.5/dist/@skillnull/WebEESocket.js"></script>
+```html
+使用 UMD 格式
+<script src="https://www.unpkg.com/@skillnull/webeesocket@0.0.6/dist/WebEESocket.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.0.5/dist/@skillnull/WebEESocket.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.0.6/dist/WebEESocket.js"></script>
+
+使用 ES 格式
+<script src="https://www.unpkg.com/@skillnull/webeesocket@0.0.6/dist/WebEESocket.es.js"></script>
+# or
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.0.6/dist/WebEESocket.es.js"></script>
 ```
+
+
+> #### 安装
 
 ```bash
 yarn add @skillnull/webeesocket
@@ -21,6 +33,7 @@ npm install @skillnull/webeesocket
 
 ### 使用
 ```js
+// 使用 CDN 引用时，无需 import 
 import { WEBSOCKET } from '@skillnull/webeesocket'
 
 this.WEBSOCKET = new WEBSOCKET({

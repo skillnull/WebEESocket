@@ -2,9 +2,7 @@ import typescript from "@rollup/plugin-typescript"
 import { terser } from "rollup-plugin-terser"
 import { babel } from "@rollup/plugin-babel"
 
-const fs = require('fs')
-const pkg = JSON.parse(fs.readFileSync("package.json"))
-const name = pkg.name
+const name = "WebEESocket"
 
 /**
  * amd - 异步模块加载，适用于 RequireJS 等模块加载器
@@ -25,9 +23,9 @@ export default {
     },
     {
       file: `dist/${name}.js`,
-      name: `${name}.js`,
+      name: "WebEESocket",
       format: 'umd',
-      compact: true // 是否压缩 Rollup 产生的额外代码
+      compact: true
     }
   ]
 }
