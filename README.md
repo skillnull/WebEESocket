@@ -1,10 +1,12 @@
 <div align="center" >
   <h1>WebEESocket</h1>
-  <br>
   <a href="http://www.skillnull.com"><img src="http://skillnull.com/others/images/brand/MIT.svg" alt="License MIT"></a>
+  <br>
+  <br>
 </div>
 
-通过事件驱动机制 EventEmitter 对 Websocket 和微信 connectSocket 进行集成封装
+#### 通过事件驱动机制 EventEmitter 对 Websocket 和微信 connectSocket 进行集成封装
+
 
 > #### CDN
 
