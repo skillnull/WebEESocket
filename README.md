@@ -12,14 +12,14 @@
 
 ```html
 使用 UMD 格式
-<script src="https://www.unpkg.com/@skillnull/webeesocket@0.0.7/dist/WebEESocket.js"></script>
+<script src="https://www.unpkg.com/@skillnull/webeesocket@0.0.8/dist/WebEESocket.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.0.7/dist/WebEESocket.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.0.8/dist/WebEESocket.js"></script>
 
 使用 ES 格式
-<script src="https://www.unpkg.com/@skillnull/webeesocket@0.0.7/dist/WebEESocket.es.js"></script>
+<script src="https://www.unpkg.com/@skillnull/webeesocket@0.0.8/dist/WebEESocket.es.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.0.7/dist/WebEESocket.es.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.0.8/dist/WebEESocket.es.js"></script>
 ```
 
 
@@ -38,8 +38,27 @@ npm install @skillnull/webeesocket
 // 使用 CDN 引用时，无需 import 
 import { WEBSOCKET } from '@skillnull/webeesocket'
 
-this.WEBSOCKET = new WEBSOCKET({
-  env: 'development'
+/**
+ * @params: {
+ *   url: <String> 服务器连接地址
+ *   auth: <Any> 服务器认证信息
+ *   heartbeat?: <Any> 心跳握手内容
+ *   heartbeat_time?: <Any> 心跳握手间隔，默认3000ms，heartbeat 传值此项才会生效
+ *   protocol?: <String | String[]> 协议
+ *   reconnect_step?: <Number> 重连间隔，不传默认 1000，传 -1 表示不重连
+ * }
+ */
+this.WEBSOCKET = new WEBSOCKET({ 
+  url: "your socket server url",
+  auth: {
+    // server need auth info
+  },
+  heartbeat: {
+    // heartbeat need info
+  },
+  heartbeat_time: 3000,
+  protocol: "protocol for websocket",
+  reconnect_step: 1000
 })
 
 /**
