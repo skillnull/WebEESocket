@@ -55,58 +55,59 @@ class WebSocket {
       let _websocket: any
 
       const on_open = () => () => {
-        if (this.websocket !== _websocket) return
+        if (this.websocket === _websocket) {
+          // 发送认证
+          this.websocket.send(this.auth)
 
-        // 发送认证
-        this.websocket.send(this.auth)
+          this.state = STATE.connected
 
-        this.state = STATE.connected
+          this.reconnect_frequency = 0
 
-        this.reconnect_frequency = 0
+          this.reSubscribe(isReconnect)
 
-        this.reSubscribe(isReconnect)
+          this.EventEmitter.emit('onOpen')
 
-        this.EventEmitter.emit('onOpen')
+          this.heartbeatFun()
+        }
 
-        this.heartbeatFun()
       }
 
       const on_close = (data: object) => {
-        if (this.websocket !== _websocket) return
+        if (this.websocket === _websocket) {
+          this.state = STATE.disconnected
 
-        this.state = STATE.disconnected
+          // 若非主动关闭，则自动重连
+          if (!this.initiative_close) {
+            this.reconnect()
+          } else {
+            this.initiative_close = false
+          }
 
-        // 若非主动关闭，则自动重连
-        if (!this.initiative_close) {
-          this.reconnect()
-        } else {
-          this.initiative_close = false
+          this.EventEmitter.emit('onClose', data)
         }
-
-        this.EventEmitter.emit('onClose', data)
       }
 
       const on_error = (data: object) => {
-        if (this.websocket !== _websocket) return
+        if (this.websocket === _websocket) {
+          this.state = STATE.error
 
-        this.state = STATE.error
+          this.reconnect()
 
-        this.reconnect()
-
-        this.EventEmitter.emit('onError', data)
+          this.EventEmitter.emit('onError', data)
+        }
       }
 
       const on_message = (data: any) => {
-        if (this.websocket !== _websocket) return
+        if (this.websocket === _websocket) {
+          try {
+            const res = data.data
 
-        try {
-          const res = data.data
+            this.handleMessage(res)
 
-          this.handleMessage(res)
-
-          this.EventEmitter.emit('onMessage', res)
-        } catch (e) {
-          console.log(e)
+            this.EventEmitter.emit('onMessage', res)
+          } catch (e) {
+            console.log(e)
+          }
         }
       }
 
@@ -149,13 +150,11 @@ class WebSocket {
     if (step) {
       this.reconnect_step = step
       return
+    } else {
+      if (this.reconnect_step !== null && this.reconnect_count++ < this.reconnect_step) {
+        setTimeout(() => this.connect(), this.reconnect_step || 1000)
+      }
     }
-
-    if (this.reconnect_step === null) return
-
-    if (this.reconnect_count++ >= this.reconnect_step) return
-
-    setTimeout(() => this.connect(), this.reconnect_step || 1000)
   }
 
   /**
@@ -174,21 +173,14 @@ class WebSocket {
 
     if (this.state === STATE.connected) {
       return this.send(data?.not_stringify ? data : CONFIG.STRINGIFY(data))
+    } else {
+      // 缓存失败订阅
+      this.cache_subscribe_fail_list.push(data)
+
+      if (this.state !== STATE.before_connect) {
+        return this.connect()
+      }
     }
-
-    // 缓存失败订阅
-    this.cache_subscribe_fail_list.push(data)
-
-    if (this.state === STATE.before_connect) return
-
-    return this.connect()
-  }
-
-  // 重新订阅失败订阅
-  subscribeCache() {
-    return this.cache_subscribe_fail_list?.map(item => {
-      this.subscribe(item)
-    })
   }
 
   // 重新订阅
@@ -221,29 +213,30 @@ class WebSocket {
 
     data.body = Object.assign({}, this.cache_subscribe[key], data?.body || {})
 
-    if (!data.body || CONFIG.STRINGIFY(data.body) === '{}') return
+    if (data.body && CONFIG.STRINGIFY(data.body) !== '{}') {
+      this.send(data?.not_stringify ? data : CONFIG.STRINGIFY(data))
 
-    this.send(data?.not_stringify ? data : CONFIG.STRINGIFY(data))
+      const idx = this.cache_subscribe_fail_list.findIndex((item: any) => {
+        return item.key === key
+      })
 
-    const idx = this.cache_subscribe_fail_list.findIndex((item: any) => {
-      return item.key === key
-    })
-
-    if (idx >= 0) {
-      this.cache_subscribe_fail_list.splice(idx, 1)
+      if (idx >= 0) {
+        this.cache_subscribe_fail_list.splice(idx, 1)
+      }
     }
   }
 
   // 发送
   send(data: object) {
-    if (!this.websocket || this.state !== STATE.connected) return
-    let params
-    if (window && window.WebSocket) {
-      params = data
-    } else if (wx && wx.connectSocket) {
-      params = { data: data }
+    if (this.websocket && this.state === STATE.connected) {
+      let params
+      if (window && window.WebSocket) {
+        params = data
+      } else if (wx && wx.connectSocket) {
+        params = { data: data }
+      }
+      this.websocket.send(params)
     }
-    this.websocket.send(params)
   }
 
   // 数据处理
@@ -254,8 +247,9 @@ class WebSocket {
   // 关闭
   close(code = 1000, reason = '') {
     this.initiative_close = true
-    if (!this.websocket) return
-    this.websocket.close(code, reason)
+    if (this.websocket) {
+      this.websocket.close(code, reason)
+    }
   }
 
   on(params: any, callback: void) {
@@ -265,12 +259,12 @@ class WebSocket {
   // 心跳握手
   heartbeatFun() {
     let _this = this
-    if (!_this.websocket || _this.state !== STATE.connected) return
-    if (!_this.heartbeat) return
-    _this.heartbeat_interval && clearInterval(_this.heartbeat_interval)
-    _this.heartbeat_interval = setInterval(function () {
-      _this.websocket.send(_this.heartbeat)
-    }, _this.heartbeat_time)
+    if (_this.websocket && _this.state === STATE.connected && _this.heartbeat) {
+      _this.heartbeat_interval && clearInterval(_this.heartbeat_interval)
+      _this.heartbeat_interval = setInterval(function () {
+        _this.websocket.send(_this.heartbeat)
+      }, _this.heartbeat_time)
+    }
   }
 }
 

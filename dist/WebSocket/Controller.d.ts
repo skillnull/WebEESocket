@@ -15,10 +15,10 @@ declare class WebSocket {
     private reconnect_step;
     private reconnect_count;
     constructor(props: any);
-    connect(): Promise<unknown>;
+    connect(isReconnect?: any): Promise<unknown>;
     reconnect(step?: number): void;
     subscribe(data: any): void | Promise<unknown>;
-    subscribeCache(): void[];
+    reSubscribe(isReconnect?: any): void;
     unsubscribe(data: any): void;
     send(data: object): void;
     handleMessage(data: object): void;
