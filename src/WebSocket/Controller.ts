@@ -43,12 +43,13 @@ class WebSocket {
 
     this.subscribe = this.subscribe.bind(this)
     this.unsubscribe = this.unsubscribe.bind(this)
+    this.reSubscribe = this.reSubscribe.bind(this)
     this.close = this.close.bind(this)
     this.on = this.on.bind(this)
   }
 
   // 连接
-  connect() {
+  connect(isReconnect: any = false) {
     return new Promise((resolve, reject) => {
       this.state = STATE.before_connect
       let _websocket: any
@@ -63,7 +64,7 @@ class WebSocket {
 
         this.reconnect_frequency = 0
 
-        this.cache_subscribe_fail_list.length > 0 && this.subscribeCache()
+        this.reSubscribe(isReconnect)
 
         this.EventEmitter.emit('onOpen')
 
@@ -188,6 +189,23 @@ class WebSocket {
     return this.cache_subscribe_fail_list?.map(item => {
       this.subscribe(item)
     })
+  }
+
+  // 重新订阅
+  reSubscribe(isReconnect: any = false) {
+    if (isReconnect) {
+      if (Object.keys(this.cache_subscribe).length > 0) {
+        for (let key in this.cache_subscribe) {
+          this.subscribe(this.cache_subscribe[key]);
+        }
+      }
+    } else {
+      if (Object.keys(this.cache_subscribe_fail_list).length > 0) {
+        for (let key in this.cache_subscribe_fail_list) {
+          this.subscribe(this.cache_subscribe_fail_list[key]);
+        }
+      }
+    }
   }
 
   /**
