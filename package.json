@@ -32,5 +32,8 @@
     "type": "git",
     "url": "https://github.com/skillnull/WebEESocket"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT"
 }
