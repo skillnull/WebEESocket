@@ -32,7 +32,7 @@ class Socket {
  *   url: <String> 服务器连接地址
  *   auth: <Any> 服务器认证信息
  *   heartbeat?: <Any> 心跳握手内容
- *   heartbeat_time?: <Any> 心跳握手间隔，默认3000ms，heartbeat 传值此项才会生效
+ *   heartbeat_time?: <Any> 心跳握手间隔，默认30000ms，heartbeat 传值此项才会生效
  *   protocol?: <String | String[]> 协议
  *   reconnect_step?: <Number> 重连间隔，不传默认 1000，传 -1 表示不重连
  * }

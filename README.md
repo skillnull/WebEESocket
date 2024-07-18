@@ -12,14 +12,14 @@
 
 ```html
 使用 UMD 格式
-<script src="https://www.unpkg.com/@skillnull/webeesocket@0.1.0/dist/WebEESocket.js"></script>
+<script src="https://www.unpkg.com/@skillnull/webeesocket@0.1.1/dist/WebEESocket.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.1.0/dist/WebEESocket.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.1.1/dist/WebEESocket.js"></script>
 
 使用 ES 格式
-<script src="https://www.unpkg.com/@skillnull/webeesocket@0.1.0/dist/WebEESocket.es.js"></script>
+<script src="https://www.unpkg.com/@skillnull/webeesocket@0.1.1/dist/WebEESocket.es.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.1.0/dist/WebEESocket.es.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.1.1/dist/WebEESocket.es.js"></script>
 ```
 
 
@@ -43,7 +43,7 @@ import { WEBSOCKET } from '@skillnull/webeesocket'
  *   url: <String> 服务器连接地址
  *   auth: <Any> 服务器认证信息
  *   heartbeat?: <Any> 心跳握手内容
- *   heartbeat_time?: <Any> 心跳握手间隔，默认3000ms，heartbeat 传值此项才会生效
+ *   heartbeat_time?: <Any> 心跳握手间隔，默认30000ms，heartbeat 传值此项才会生效
  *   protocol?: <String | String[]> 协议
  *   reconnect_step?: <Number> 重连间隔，不传默认 1000，传 -1 表示不重连
  * }

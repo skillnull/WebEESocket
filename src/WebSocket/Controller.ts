@@ -259,7 +259,7 @@ class WebSocket {
   // 心跳握手
   heartbeatFun() {
     let _this = this
-    if (_this.websocket && _this.state === STATE.connected && _this.heartbeat) {
+    if (_this.state === STATE.connected && _this.heartbeat) {
       _this.heartbeat_interval && clearInterval(_this.heartbeat_interval)
       _this.heartbeat_interval = setInterval(function () {
         _this.websocket.send(_this.heartbeat)
