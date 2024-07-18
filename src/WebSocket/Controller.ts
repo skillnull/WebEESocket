@@ -13,7 +13,7 @@ class WebSocket {
   // 心跳握手信息
   private heartbeat?: any = ''
   // 心跳握手间隔
-  private heartbeat_time?: any = 3000
+  private heartbeat_time?: any = 30000
   // 协议
   private protocol?: any
   // 连接状态
