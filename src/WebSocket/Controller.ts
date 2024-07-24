@@ -188,13 +188,15 @@ class WebSocket {
     if (isReconnect) {
       if (Object.keys(this.cache_subscribe).length > 0) {
         for (let key in this.cache_subscribe) {
-          this.subscribe(this.cache_subscribe[key]);
+          const ele = this.cache_subscribe[key]
+          ele && this.subscribe(ele);
         }
       }
     } else {
       if (Object.keys(this.cache_subscribe_fail_list).length > 0) {
         for (let key in this.cache_subscribe_fail_list) {
-          this.subscribe(this.cache_subscribe_fail_list[key]);
+          const ele = this.cache_subscribe_fail_list[key]
+          ele && this.subscribe(ele);
         }
       }
     }
