@@ -56,7 +56,7 @@ this.WEBSOCKET = new WEBSOCKET({
   heartbeat: {
     // heartbeat need info
   },
-  heartbeat_time: 3000,
+  heartbeat_time: 30000,
   protocol: "protocol for websocket",
   reconnect_step: 1000
 })
