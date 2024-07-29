@@ -175,7 +175,7 @@ class WebSocket {
       return this.send(data?.not_stringify ? data : CONFIG.STRINGIFY(data))
     } else {
       // 缓存失败订阅
-      this.cache_subscribe_fail_list.push(data)
+      this.cache_subscribe_fail_list[key] = data
 
       if (this.state !== STATE.before_connect) {
         return this.connect()
@@ -218,13 +218,9 @@ class WebSocket {
     if (data.body && CONFIG.STRINGIFY(data.body) !== '{}') {
       this.send(data?.not_stringify ? data : CONFIG.STRINGIFY(data))
 
-      const idx = this.cache_subscribe_fail_list.findIndex((item: any) => {
-        return item.key === key
-      })
+      delete this.cache_subscribe[key]
 
-      if (idx >= 0) {
-        this.cache_subscribe_fail_list.splice(idx, 1)
-      }
+      delete this.cache_subscribe_fail_list[key]
     }
   }
 
