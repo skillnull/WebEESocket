@@ -1,11 +1,11 @@
 import WebSocket from './WebSocket/Controller'
 
 class Socket {
-  private socket: WebSocket
-  private subscribe: OmitThisParameter<(data: object) => void>
-  private unsubscribe: OmitThisParameter<(data: object) => void>
-  private close: OmitThisParameter<() => void>
-  private on: OmitThisParameter<(params: any, callback: void) => any>
+  public socket: WebSocket
+  public subscribe: OmitThisParameter<(data: object) => void>
+  public unsubscribe: OmitThisParameter<(data: object) => void>
+  public close: OmitThisParameter<() => void>
+  public on: OmitThisParameter<(params: any, callback: void) => any>
 
   constructor(props: any) {
     this.socket = new WebSocket(props)
