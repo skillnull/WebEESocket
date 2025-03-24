@@ -1,6 +1,6 @@
 import WebSocket from './WebSocket/Controller'
 
-if (typeof window === undefined || typeof window === null) {
+if (typeof window === "undefined" || typeof window === null) {
   const jsdom = require("jsdom")
   const {JSDOM} = jsdom
   const DOM = new JSDOM(``)

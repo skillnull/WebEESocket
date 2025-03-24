@@ -14,14 +14,14 @@
 
 ```html
 使用 UMD 格式
-<script src="https://www.unpkg.com/@skillnull/webeesocket@0.1.7/dist/WebEESocket.js"></script>
+<script src="https://www.unpkg.com/@skillnull/webeesocket@0.1.8/dist/WebEESocket.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.1.7/dist/WebEESocket.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.1.8/dist/WebEESocket.js"></script>
 
 使用 ES 格式
-<script src="https://www.unpkg.com/@skillnull/webeesocket@0.1.7/dist/WebEESocket.es.js"></script>
+<script src="https://www.unpkg.com/@skillnull/webeesocket@0.1.8/dist/WebEESocket.es.js"></script>
 # or
-<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.1.7/dist/WebEESocket.es.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@skillnull/webeesocket@0.1.8/dist/WebEESocket.es.js"></script>
 ```
 
 
