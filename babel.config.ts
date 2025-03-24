@@ -3,7 +3,10 @@ module.exports = {
     [
       "@babel/preset-env",
       {
-        "useBuiltIns": "entry"
+        "useBuiltIns": "entry",
+        "es2015": {
+          "modules": false
+        }
       }
     ]
   ]

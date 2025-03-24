@@ -1,5 +1,5 @@
 {
-  "version": "0.1.5",
+  "version": "0.1.6",
   "name": "@skillnull/webeesocket",
   "description": "通过事件驱动机制 EventEmitter 对 Websocket 和微信 connectSocket 进行集成封装",
   "main": "dist/WebEESocket",
@@ -21,9 +21,14 @@
     "@babel/preset-env": "^7.24.7",
     "@babel/runtime": "^7.24.7",
     "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.12.12",
+    "jsdom": "^26.0.0",
     "rollup": "^4.18.0",
+    "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.6.3",
     "typescript": "^5.4.5"
